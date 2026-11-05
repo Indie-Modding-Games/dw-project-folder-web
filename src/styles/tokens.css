@@ -1,0 +1,38 @@
+/* Design tokens — única fuente de colores, tipografías y espaciados.
+   Los componentes nunca escriben colores literales (§10.6 del plan). */
+
+:root {
+  /* dark (default): retro-moderno sobrio */
+  color-scheme: dark; /* widgets nativos (select, scrollbars) siguen el tema */
+  --bg: #0b0e13;
+  --bg-elev: #121722;
+  --bg-elev-2: #1a2130;
+  --line: #242d3d;
+  --text: #dfe6ee;
+  --muted: #8fa1b3;
+  --accent: #7bd88f;   /* verde terminal */
+  --accent-ink: #06240f;
+  --warn: #f0a832;     /* ámbar */
+  --warn-ink: #241706;
+  --code-bg: #0a0d12;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --maxw: 1080px;
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", ui-monospace, Consolas, monospace;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f4f6f9;
+  --bg-elev: #ffffff;
+  --bg-elev-2: #eaeef4;
+  --line: #d4dce6;
+  --text: #17202c;
+  --muted: #5c6b7e;
+  --accent: #1d9e4f;
+  --accent-ink: #ffffff;
+  --warn: #b57314;
+  --warn-ink: #ffffff;
+  --code-bg: #10151d;
+}
