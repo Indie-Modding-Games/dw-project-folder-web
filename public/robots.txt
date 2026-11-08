@@ -1,0 +1,18 @@
+# robots.txt — Project Folder (https://indie-modding-games.github.io/dw-project-folder-web/)
+
+User-agent: *
+Allow: /
+
+# AI crawlers are explicitly welcome: the project lives from being discovered.
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://indie-modding-games.github.io/dw-project-folder-web/sitemap.xml

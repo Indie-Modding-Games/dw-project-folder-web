@@ -5,7 +5,7 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [react()],
   /**
-   * GitHub Pages sirve este repo en https://devvago.github.io/dw-project-folder-web/
+   * GitHub Pages sirve este repo en https://indie-modding-games.github.io/dw-project-folder-web/
    * Si mañana se usa dominio propio o un repo <usuario>.github.io, cambiar a '/'.
    */
   base: '/dw-project-folder-web/',
