@@ -1,3 +1,4 @@
+import logo from '../assets/logo.svg'
 import { links } from '../content/links'
 import { project } from '../content/project'
 import { useI18n } from '../i18n/context'
@@ -20,6 +21,7 @@ export function SiteHeader() {
     <header className="site-header">
       <div className="container header-row">
         <a className="brand" href="#top">
+          <img className="brand-logo" src={logo} alt="" width={30} height={30} />
           <span className="brand-name">{project.name}</span>
           <Badge tone="warn">{t('brand.beta')}</Badge>
         </a>
@@ -38,7 +40,7 @@ export function SiteHeader() {
             href={links.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="switcher-item icon-btn"
+            className="switcher-item icon-btn header-github"
             aria-label={t('nav.github')}
           >
             <Icon name="github" size={17} />

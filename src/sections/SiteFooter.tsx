@@ -1,3 +1,4 @@
+import logo from '../assets/logo.svg'
 import { links } from '../content/links'
 import { useI18n } from '../i18n/context'
 import { Icon } from '../ui/Icon'
@@ -8,6 +9,10 @@ export function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="container">
+        <p className="footer-brand">
+          <img className="brand-logo" src={logo} alt="" width={26} height={26} />
+          <span className="footer-brand-name">{t('brand.name')}</span>
+        </p>
         <p className="footer-disclaimer">{t('footer.disclaimer')}</p>
         <p className="footer-disclaimer">{t('footer.byod')}</p>
         <p className="footer-license">{t('footer.license')}</p>

@@ -69,11 +69,47 @@ h1, h2, h3 {
   color: var(--text);
 }
 
+.brand-logo {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+}
+
 .brand-name {
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 1.25rem;
   letter-spacing: 0.02em;
+}
+
+@media (max-width: 600px) {
+  .brand-name {
+    font-size: 1.05rem;
+  }
+}
+
+/* En pantallas chicas el badge beta del header se omite
+   para que la marca quepa en una línea (el hero lo muestra igualmente). */
+@media (max-width: 560px) {
+  .brand .badge {
+    display: none;
+  }
+}
+
+/* En móviles estrechos el GitHub del header se omite (el footer lo mantiene),
+   el globo del selector se oculta y la marca se reduce para evitar el wrap. */
+@media (max-width: 420px) {
+  .header-utils .header-github {
+    display: none;
+  }
+
+  .lang-switcher svg {
+    display: none;
+  }
+
+  .brand-name {
+    font-size: 0.95rem;
+  }
 }
 
 .site-nav {
@@ -179,7 +215,9 @@ a.icon-btn,
   color: var(--text);
 }
 
-@media (max-width: 720px) {
+/* El nav de anclas caben en el header solo por encima de ~900px;
+   por debajo se oculta (el hero y el footer cubren la navegación). */
+@media (max-width: 900px) {
   .site-nav {
     display: none;
   }
@@ -510,7 +548,9 @@ a.icon-btn,
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--bg) 62%, transparent), var(--bg) 92%);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--bg) 72%, transparent), var(--bg) 94%),
+    linear-gradient(90deg, color-mix(in srgb, var(--bg) 45%, transparent), transparent 65%);
 }
 
 .hero-inner {
@@ -522,6 +562,30 @@ a.icon-btn,
   gap: 36px;
 }
 
+/* Dos columnas en escritorio: copy + arte/logo a la izquierda,
+   features a la derecha; así el hero aprovecha el ancho completo. */
+.hero-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 48px;
+  align-items: start;
+}
+
+@media (max-width: 940px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .hero-logo {
+    max-width: 460px;
+  }
+
+  .hero-inner {
+    padding-top: 72px;
+  }
+}
+
 .hero-copy {
   display: flex;
   flex-direction: column;
@@ -529,10 +593,28 @@ a.icon-btn,
   max-width: 780px;
 }
 
-.hero-features-wrap {
+/* Cabecera del hero: badges + eyebrow a todo el ancho, por encima de las columnas. */
+.hero-kicker {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
+}
+
+.hero-kicker .eyebrow {
+  margin: 0;
+}
+
+/* Panel único de cristal para las features: las tarjetas dejan de flotar
+   sueltas sobre la escena y se integran como filas separadas por líneas. */
+.hero-features-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px 26px;
+  background: color-mix(in srgb, var(--bg) 62%, transparent);
+  border: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+  border-radius: var(--radius);
+  backdrop-filter: blur(14px) saturate(1.2);
 }
 
 .hero-features-title {
@@ -541,9 +623,43 @@ a.icon-btn,
   margin: 0;
 }
 
-.hero .card {
-  background: color-mix(in srgb, var(--bg-elev) 78%, transparent);
-  backdrop-filter: blur(6px);
+.hero-features {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-feature {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  grid-template-areas:
+    'icon title'
+    'icon body';
+  column-gap: 16px;
+  row-gap: 6px;
+  padding: 16px 0;
+  background: none;
+  border: none;
+  border-radius: 0;
+  border-top: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
+}
+
+.hero-feature:first-child {
+  border-top: none;
+  padding-top: 8px;
+}
+
+.hero-feature .card-eyebrow {
+  grid-area: icon;
+  align-self: start;
+}
+
+.hero-feature .card-title {
+  grid-area: title;
+  align-self: center;
+}
+
+.hero-feature .card-body {
+  grid-area: body;
 }
 
 .hero-tags {
@@ -557,6 +673,7 @@ a.icon-btn,
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  margin-left: auto;
 }
 
 .hero-roadmap-label {
@@ -570,9 +687,13 @@ a.icon-btn,
   font-weight: 800;
 }
 
-.hero-brand {
-  font-family: var(--font-mono);
-  color: var(--accent);
+.hero-logo {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 14px 38px rgba(3, 8, 16, 0.45);
 }
 
 .hero-sub {
@@ -778,6 +899,26 @@ a.icon-btn,
   padding: 44px 0 56px;
   color: var(--muted);
   font-size: 0.86rem;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 22px;
+}
+
+.footer-brand .brand-logo {
+  width: 26px;
+  height: 26px;
+}
+
+.footer-brand-name {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text);
+  letter-spacing: 0.02em;
 }
 
 .footer-disclaimer {

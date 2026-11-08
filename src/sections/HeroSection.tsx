@@ -1,4 +1,5 @@
-import heroBg from '../assets/hero.png'
+import heroBanner from '../assets/hero-banner.webp'
+import heroLogo from '../assets/hero.webp'
 import { TechChipList } from '../components/TechChipList'
 import { links } from '../content/links'
 import { phases, project } from '../content/project'
@@ -17,13 +18,14 @@ const FEATURES: { icon: IconName; titleKey: string; bodyKey: string }[] = [
   { icon: 'linux', titleKey: 'overview.f4Title', bodyKey: 'overview.f4Body' },
 ]
 
-/** Cabecera de la landing: identidad + qué es + CTAs + estado del roadmap. */
+/** Cabecera de la landing: identidad + qué es + CTAs + estado del roadmap.
+ *  En escritorio: dos columnas (copy a la izquierda, panel de features a la derecha). */
 export function HeroSection() {
   const { t } = useI18n()
   return (
-    <section className="hero" id="top" style={{ backgroundImage: `url(${heroBg})` }}>
+    <section className="hero" id="top" style={{ backgroundImage: `url(${heroBanner})` }}>
       <div className="container hero-inner">
-        <div className="hero-copy">
+        <div className="hero-kicker">
           <div className="hero-tags">
             <Badge tone="warn">{t('brand.beta')}</Badge>
             <Badge tone="neutral">{t('hero.engine')}</Badge>
@@ -37,38 +39,43 @@ export function HeroSection() {
             </span>
           </div>
           <p className="eyebrow">{t('hero.eyebrow')}</p>
-          <h1 className="hero-title">
-            <span className="hero-brand">{project.name}</span>
-          </h1>
-          <p className="hero-sub">{t('hero.title')}</p>
-          <p className="hero-lead">{t('hero.lead')}</p>
-          <div className="hero-ctas">
-            <Button href="#downloads" icon="download">
-              {t('hero.ctaDownload')}
-            </Button>
-            <Button href={links.youtube} external variant="ghost" icon="youtube">
-              {t('hero.ctaWatch')}
-            </Button>
-          </div>
         </div>
 
-        <div className="hero-features-wrap">
-          <h2 className="hero-features-title">{t('overview.title')}</h2>
-          <div className="grid grid-2 hero-features">
-            {FEATURES.map((f) => (
-              <Card
-                key={f.titleKey}
-                className="hero-feature"
-                eyebrow={
-                  <span className="feature-icon">
-                    <Icon name={f.icon} size={20} />
-                  </span>
-                }
-                title={t(f.titleKey)}
-              >
-                <p className="card-text">{t(f.bodyKey)}</p>
-              </Card>
-            ))}
+        <div className="hero-grid">
+          <div className="hero-copy">
+            <h1 className="hero-title">
+              <img className="hero-logo" src={heroLogo} alt={t('hero.logoAlt')} width={920} height={613} />
+            </h1>
+            <p className="hero-sub">{t('hero.title')}</p>
+            <p className="hero-lead">{t('hero.lead')}</p>
+            <div className="hero-ctas">
+              <Button href="#downloads" icon="download">
+                {t('hero.ctaDownload')}
+              </Button>
+              <Button href={links.youtube} external variant="ghost" icon="youtube">
+                {t('hero.ctaWatch')}
+              </Button>
+            </div>
+          </div>
+
+          <div className="hero-features-panel">
+            <h2 className="hero-features-title">{t('overview.title')}</h2>
+            <div className="hero-features">
+              {FEATURES.map((f) => (
+                <Card
+                  key={f.titleKey}
+                  className="hero-feature"
+                  eyebrow={
+                    <span className="feature-icon">
+                      <Icon name={f.icon} size={20} />
+                    </span>
+                  }
+                  title={t(f.titleKey)}
+                >
+                  <p className="card-text">{t(f.bodyKey)}</p>
+                </Card>
+              ))}
+            </div>
           </div>
         </div>
 

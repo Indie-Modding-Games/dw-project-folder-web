@@ -1,9 +1,9 @@
-/** Identidad del proyecto y estado del roadmap. Fuente: dw-engine/docs/roadmap.md (2026-10-20). */
+/** Identidad del proyecto y estado del roadmap. Fuente: dw-engine/docs/roadmap.md (2026-11-08). */
 export const project = {
   /** Nombre público: el proyecto. `engine` es el motor sobre el que corre. */
   name: 'Project Folder',
   engine: 'dwe',
-  roadmapUpdated: '2026-10-20',
+  roadmapUpdated: '2026-11-08',
   /** Chips de tecnología — nombres propios, no se traducen. */
   techs: ['C++26', 'Vulkan 1.3', 'SDL3', 'Slang', 'Lua', 'EnTT', 'RmlUi', 'KTX2', 'Opus', 'CMake', 'vcpkg'],
 } as const

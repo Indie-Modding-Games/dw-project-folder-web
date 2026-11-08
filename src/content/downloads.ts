@@ -28,8 +28,8 @@ export const releases: PlatformRelease[] = [
     status: 'available',
     // TODO: fijar cuando se publique la release (scripts/package_linux.sh).
     url: links.releases,
-    fileName: 'dwe-beta-<version>-<commit>-linux-x86_64.tar.xz',
-    versionLabel: 'beta 0.2',
+    fileName: 'pf-launcher-<version>-<commit>-linux-x86_64.tar.xz',
+    versionLabel: 'launcher beta 0.2',
     sizeLabel: '~260 MB',
     // TODO: generar el checksum junto al tarball.
     sha256: '',
@@ -43,8 +43,8 @@ export const releases: PlatformRelease[] = [
     status: 'available',
     // TODO: fijar URL directa, tamaño y checksum cuando se publique la release.
     url: links.releases,
-    fileName: 'dwe-beta-<version>-<commit>-windows-x64.zip',
-    versionLabel: 'beta 0.2',
+    fileName: 'pf-launcher-<version>-<commit>-windows-x64.zip',
+    versionLabel: 'launcher beta 0.2',
     sizeLabel: '~300 MB',
     sha256: '',
     reqsKey: 'downloads.windowsReqs',

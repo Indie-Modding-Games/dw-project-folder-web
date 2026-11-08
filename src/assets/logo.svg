@@ -1,0 +1,34 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <defs>
+    <linearGradient id="mount" x1="35" y1="50" x2="95" y2="100" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF18A"></stop>
+      <stop offset=".5" stop-color="#FFD43B"></stop>
+      <stop offset="1" stop-color="#54C9FF"></stop>
+    </linearGradient>
+    <linearGradient id="ring" x1="37" y1="35" x2="92" y2="55" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8BF0FF"></stop>
+      <stop offset="1" stop-color="#2588FF"></stop>
+    </linearGradient>
+  </defs>
+
+  <circle cx="64" cy="64" r="53" stroke="#174B85" stroke-width="1.5"></circle>
+
+  <path d="M37 48 A27 11 0 0 1 91 48" stroke="url(#ring)" stroke-width="5" stroke-linecap="round"></path>
+
+  <path d="M35 51V45 M93 51V45" stroke="#8BEAFF" stroke-width="3"></path>
+
+  <path d="M19 93L34 78L46 83L64 55L79 78L91 68L109 93Z" fill="url(#mount)" stroke="#D9F4FF" stroke-width="2" stroke-linejoin="round"></path>
+
+  <path d="M46 83L55 77L64 55L70 78L79 78L91 68L86 84L97 93H34Z" fill="#2379C9" opacity=".7"></path>
+
+  <path d="M57 68L64 55L70 68L66 66L63 72L60 68Z" fill="#FFF5B4"></path>
+
+  <path d="M19 98H109" stroke="#47CFFF" stroke-width="3" stroke-linecap="round"></path>
+
+  <g fill="#FFD43B">
+    <rect x="13" y="36" width="6" height="6"></rect>
+    <rect x="99" y="105" width="6" height="6"></rect>
+  </g>
+  <rect x="104" y="30" width="5" height="5" fill="#45CFFF"></rect>
+</svg>
