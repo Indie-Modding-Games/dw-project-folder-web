@@ -6,6 +6,6 @@ export const links = {
   docs: 'https://github.com/indie-modding-games/dw-engine/tree/main/docs',
   discord: 'https://discord.gg/CzYCB4MgZ',
   youtube: 'https://www.youtube.com/@DigimonWorldProjectFolder',
-  kofi: 'https://ko-fi.com/REPLACE_ME',
-  patreon: 'https://patreon.com/REPLACE_ME',
+  kofi: 'https://ko-fi.com/indiemoddinggames',
+  patreon: 'https://www.patreon.com/cw/IndieModdingGames',
 } as const
