@@ -79,6 +79,9 @@ export const pt: Catalog = {
     copied: 'Copiado!',
     pending: 'pendente',
     docsLink: 'Guia de primeira execução',
+    formats: 'Formatos',
+    viewPrereleases: 'Ver as prereleases',
+    prereleasesHint: 'As prereleases são as builds beta mais recentes; podem ainda não estar assinadas ou notarizadas.',
   },
   media: {
     eyebrow: 'Vídeos',

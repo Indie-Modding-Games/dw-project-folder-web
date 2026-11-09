@@ -79,6 +79,9 @@ export const zh: Catalog = {
     copied: '已复制!',
     pending: '待定',
     docsLink: '首次运行指南',
+    formats: '格式',
+    viewPrereleases: '查看预发布版',
+    prereleasesHint: '预发布版是最新的测试构建, 可能尚未签名或公证。',
   },
   media: {
     eyebrow: '视频',

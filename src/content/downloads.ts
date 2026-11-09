@@ -5,6 +5,18 @@ export type ReleaseStatus = 'available' | 'coming-soon'
 
 export type PlatformId = 'linux' | 'macos' | 'windows'
 
+/** Una opción de descarga dentro de una plataforma (p. ej. AppImage, .deb, .dmg, .pkg). */
+export interface DownloadFormat {
+  /** Etiqueta visible del botón: nombre de formato técnico, no se traduce. */
+  label: string
+  /**
+   * Fuentes regex ordenadas por prioridad, probadas (case-insensitive) contra el `name`
+   * de los assets del último release. La primera coincidencia da esta opción; si ninguna
+   * coincide (formato aún no publicado), la opción no se muestra.
+   */
+  patterns: string[]
+}
+
 /** Contrato único por plataforma: Linux, macOS y Windows usan el mismo card (LSP, §10.3). */
 export interface PlatformRelease {
   id: PlatformId
@@ -17,12 +29,8 @@ export interface PlatformRelease {
   versionLabel: string
   sizeLabel: string
   sha256: string
-  /**
-   * Regex (fuentes) ordenadas por prioridad, probadas contra el `name` de cada asset
-   * del último release (sin distinción de mayúsculas). La primera que coincide define
-   * la descarga de esta plataforma. Así el SO es dato, no un `if` en el componente.
-   */
-  assetPatterns: string[]
+  /** Opciones de descarga que esta plataforma intenta ofrecer desde la API. */
+  formats: DownloadFormat[]
   /** Clave del catálogo con la lista de requisitos (tArr). */
   reqsKey: string
   /** Clave del catálogo con el cómo se ejecuta. */
@@ -35,14 +43,16 @@ export const releases: PlatformRelease[] = [
     osKey: 'Linux',
     icon: 'linux',
     status: 'available',
-    // La URL real llega de la API (useLatestRelease); esto es el enlace de reserva.
     url: links.releases,
     fileName: 'dwe-launcher …amd64.AppImage',
     versionLabel: 'último release',
     sizeLabel: '~80 MB',
     sha256: '',
-    // El instalador de launcher (AppImage / .deb); nunca el tarball del motor.
-    assetPatterns: ['\\.AppImage$', '\\.deb$', 'linux.*\\.tar\\.xz$'],
+    // Dos instaladores de launcher reales hoy: AppImage portable y paquete .deb.
+    formats: [
+      { label: 'AppImage', patterns: ['\\.AppImage$'] },
+      { label: '.deb', patterns: ['\\.deb$'] },
+    ],
     reqsKey: 'downloads.linuxReqs',
     howtoKey: 'downloads.linuxHowto',
   },
@@ -56,8 +66,13 @@ export const releases: PlatformRelease[] = [
     versionLabel: 'último release',
     sizeLabel: '~9 MB',
     sha256: '',
-    // El lanzador macOS: .dmg universal (Intel + Apple Silicon).
-    assetPatterns: ['\\.dmg$', '\\.pkg$', 'macos.*\\.tar\\.gz$', 'launcher\\.app\\.tar\\.gz$'],
+    // .dmg universal hoy; .pkg se muestra automáticamente cuando la CI lo publique;
+    // el bundle .app empaquetado en tar.gz como opción avanzada.
+    formats: [
+      { label: '.dmg', patterns: ['\\.dmg$'] },
+      { label: '.pkg', patterns: ['\\.pkg$', 'macos.*\\.pkg$'] },
+      { label: '.app (tar.gz)', patterns: ['launcher\\.app\\.tar\\.gz$'] },
+    ],
     reqsKey: 'downloads.macosReqs',
     howtoKey: 'downloads.macosHowto',
   },
@@ -71,8 +86,11 @@ export const releases: PlatformRelease[] = [
     versionLabel: 'último release',
     sizeLabel: '~6 MB',
     sha256: '',
-    // El instalador de launcher .exe; nunca el tarball del motor.
-    assetPatterns: ['-setup\\.exe$', '\\.exe$', 'windows.*\\.zip$'],
+    // Instalador .exe del launcher; .zip portable como segunda opción si se publica.
+    formats: [
+      { label: 'Installer .exe', patterns: ['-setup\\.exe$', '\\.exe$'] },
+      { label: '.zip', patterns: ['windows.*\\.zip$', 'win.*\\.zip$'] },
+    ],
     reqsKey: 'downloads.windowsReqs',
     howtoKey: 'downloads.windowsHowto',
   },

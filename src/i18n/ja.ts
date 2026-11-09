@@ -79,6 +79,9 @@ export const ja: Catalog = {
     copied: 'コピーしました!',
     pending: '未定',
     docsLink: '初回起動ガイド',
+    formats: 'フォーマット',
+    viewPrereleases: 'プレリリースを見る',
+    prereleasesHint: 'プレリリースは最新のベータビルドです。未署名・未公証の場合があります。',
   },
   media: {
     eyebrow: '動画',

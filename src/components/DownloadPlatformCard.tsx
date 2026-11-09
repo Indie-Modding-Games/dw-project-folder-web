@@ -1,4 +1,5 @@
 import type { PlatformRelease } from '../content/downloads'
+import type { ResolvedFormat } from '../hooks/useLatestRelease'
 import { useI18n } from '../i18n/context'
 import { Badge } from '../ui/Badge'
 import { Button } from '../ui/Button'
@@ -8,15 +9,47 @@ import { KeyValue } from '../ui/KeyValue'
 
 export interface DownloadPlatformCardProps {
   release: PlatformRelease
+  /** Opciones resueltas desde la API; vacío → botón único de reserva o deshabilitado. */
+  options: ResolvedFormat[]
 }
 
 /**
- * Tarjeta de descarga por plataforma. Linux y Windows usan ESTE mismo componente:
- * el estado ('available' | 'coming-soon') es un prop, no un if con el nombre del SO (LSP).
+ * Tarjeta de descarga por plataforma. Linux, macOS y Windows usan ESTE mismo componente:
+ * el estado y las opciones (AppImage, .deb, .dmg, .pkg…) llegan como props, no hay
+ * ningún `if` con el nombre del SO (LSP). Una plataforma puede ofrecer varias descargas.
  */
-export function DownloadPlatformCard({ release }: DownloadPlatformCardProps) {
+export function DownloadPlatformCard({ release, options }: DownloadPlatformCardProps) {
   const { t, tArr } = useI18n()
   const available = release.status === 'available'
+  const primary = options[0]
+  const title = primary ? primary.fileName : release.fileName
+
+  // Pie de la tarjeta: una fila de botones (una por formato) o el enlace de reserva.
+  let footer
+  if (available && options.length > 0) {
+    footer = (
+      <>
+        {options.map((opt) => (
+          <Button key={opt.url} href={opt.url} external icon="download">
+            {opt.label} · {opt.sizeLabel}
+          </Button>
+        ))}
+      </>
+    )
+  } else if (available) {
+    // Cargando o sin API: enlazamos a la página de releases como reserva.
+    footer = (
+      <Button href={release.url} external icon="download">
+        {t('downloads.download')}
+      </Button>
+    )
+  } else {
+    footer = (
+      <Button disabled icon="download">
+        {t('downloads.download')}
+      </Button>
+    )
+  }
 
   return (
     <Card
@@ -30,22 +63,19 @@ export function DownloadPlatformCard({ release }: DownloadPlatformCardProps) {
           </Badge>
         </span>
       }
-      title={release.fileName}
-      footer={
-        available ? (
-          <Button href={release.url} external icon="download">
-            {t('downloads.download')}
-          </Button>
-        ) : (
-          <Button disabled icon="download">
-            {t('downloads.download')}
-          </Button>
-        )
-      }
+      title={title}
+      footer={footer}
     >
       <div className="kv-list">
         <KeyValue label={t('downloads.version')} value={release.versionLabel} />
-        <KeyValue label={t('downloads.size')} value={release.sizeLabel} />
+        <KeyValue
+          label={t('downloads.formats')}
+          value={
+            options.length > 0
+              ? options.map((o) => o.label).join(' · ')
+              : t('downloads.pending')
+          }
+        />
         {release.sha256 ? (
           <KeyValue
             label={t('downloads.sha')}

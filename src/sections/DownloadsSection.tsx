@@ -1,40 +1,46 @@
 import { useMemo } from 'react'
+import { links } from '../content/links'
 import { releases, type PlatformRelease } from '../content/downloads'
 import { DownloadPlatformCard } from '../components/DownloadPlatformCard'
-import { useLatestRelease } from '../hooks/useLatestRelease'
+import { useLatestRelease, type ResolvedFormat } from '../hooks/useLatestRelease'
 import { useI18n } from '../i18n/context'
+import { Button } from '../ui/Button'
 import { Icon } from '../ui/Icon'
 import { SectionTitle } from '../ui/SectionTitle'
 
+interface CardData {
+  release: PlatformRelease
+  options: ResolvedFormat[]
+}
+
 /**
  * Windows, macOS y Linux se renderizan desde el mismo dato: ningún `if` de SO aquí.
- * El enlace real, el nombre y el tamaño salen del último release de GitHub (la API);
- * si aún carga o falla, la tarjeta cae al enlace de reserva (página de releases).
+ * El enlace real, el nombre y el tamaño salen del último release de GitHub (la API).
+ * Una plataforma puede ofrecer varias opciones (AppImage, .deb, .dmg, .pkg, .exe…).
  */
 export function DownloadsSection() {
   const { t } = useI18n()
-  const { loading, error, byPlatform } = useLatestRelease()
+  const { loading, error, byPlatform, releaseUrl } = useLatestRelease()
 
-  // Una sola resolución por release: mezcla el def estático con el asset dinámico.
-  const resolved = useMemo<PlatformRelease[]>(() => {
+  const data = useMemo<CardData[]>(() => {
     return releases.map((def) => {
-      const hit = byPlatform[def.id]
-      if (hit) {
-        return {
-          ...def,
-          status: 'available',
-          url: hit.url,
-          fileName: hit.fileName,
-          versionLabel: hit.versionLabel,
-          sizeLabel: hit.sizeLabel,
-        }
+      const res = byPlatform[def.id]
+      const options = res?.formats ?? []
+      if (res && options.length > 0) {
+        // Resolución confirmada con al menos un formato: versión del tag + "available".
+        return { release: { ...def, versionLabel: res.versionLabel, status: 'available' }, options }
       }
-      // API confirmada y sin asset para esta plataforma → no hay versión directa.
-      if (!loading && !error) return { ...def, status: 'coming-soon' }
-      // Cargando o sin API: conserva el enlace de reserva.
-      return def
+      if (!loading && !error) {
+        // API cargada y sin ninguna opción para esta plataforma → "en camino".
+        return { release: { ...def, status: 'coming-soon' }, options }
+      }
+      // Cargando o sin API: conserva el enlace de reserva (página de releases).
+      return { release: def, options }
     })
   }, [byPlatform, loading, error])
+
+  // Enlace directo a la prerelease más reciente (o a la lista de releases si falla).
+  const prereleaseUrl = releaseUrl ?? links.releases
 
   return (
     <section className="section" id="downloads">
@@ -46,10 +52,17 @@ export function DownloadsSection() {
           subtitle={t('downloads.subtitle')}
         />
         <div className="grid grid-2 grid-sm">
-          {resolved.map((release) => (
-            <DownloadPlatformCard key={release.id} release={release} />
+          {data.map(({ release, options }) => (
+            <DownloadPlatformCard key={release.id} release={release} options={options} />
           ))}
         </div>
+        <p className="downloads-prereleases">
+          <Button href={prereleaseUrl} external variant="ghost" icon="github">
+            {t('downloads.viewPrereleases')}
+          </Button>
+          <Icon name="bug" size={15} />
+          <span>{t('downloads.prereleasesHint')}</span>
+        </p>
         <p className="section-note">
           <Icon name="book" size={16} />
           <span>{t('downloads.note')}</span>

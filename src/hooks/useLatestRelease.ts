@@ -12,6 +12,7 @@ interface GhAsset {
 interface GhRelease {
   tag_name: string
   name: string | null
+  html_url: string
   draft: boolean
   prerelease: boolean
   published_at: string | null
@@ -19,22 +20,30 @@ interface GhRelease {
   assets: GhAsset[]
 }
 
-/** Descarga resuelta para una plataforma desde el último release. */
-export interface ResolvedAsset {
+/** Una descarga resuelta para un formato concreto. */
+export interface ResolvedFormat {
+  label: string
   url: string
   fileName: string
-  versionLabel: string
   sizeLabel: string
+}
+
+/** Resolución de una plataforma: versión del release + todas sus opciones disponibles. */
+export interface PlatformResolution {
+  versionLabel: string
+  formats: ResolvedFormat[]
 }
 
 export interface LatestReleaseState {
   loading: boolean
   error: boolean
-  /** Resolución por plataforma: asset → descarga directa; undefined → usar enlace de reserva. */
-  byPlatform: Partial<Record<PlatformId, ResolvedAsset>>
+  /** Página HTML del último release (para enlazar directo a la prerelease). */
+  releaseUrl: string | null
+  /** Resolución por plataforma; vacío o sin formats → enlace de reserva. */
+  byPlatform: Partial<Record<PlatformId, PlatformResolution>>
 }
 
-const EMPTY: LatestReleaseState = { loading: true, error: false, byPlatform: {} }
+const EMPTY: LatestReleaseState = { loading: true, error: false, releaseUrl: null, byPlatform: {} }
 
 /** Bytes → etiqueta legible en MB (1 MB = 1024² bytes), sin decimales largos. */
 function formatSize(bytes: number): string {
@@ -44,19 +53,12 @@ function formatSize(bytes: number): string {
 }
 
 /** Primera coincidencia entre `patterns` y los assets del release (case-insensitive). */
-function matchAsset(release: GhRelease, patterns: string[]): ResolvedAsset | undefined {
+function matchAsset(assets: GhAsset[], patterns: string[]): GhAsset | undefined {
   for (const source of patterns) {
     const re = new RegExp(source, 'i')
-    // Descartamos los .sig: nunca coinciden con los patrones de instalador, por seguridad.
-    const asset = release.assets.find((a) => re.test(a.name))
-    if (asset) {
-      return {
-        url: asset.browser_download_url,
-        fileName: asset.name,
-        versionLabel: release.tag_name,
-        sizeLabel: formatSize(asset.size),
-      }
-    }
+    // Los .sig nunca terminan con estas extensiones, así que quedan excluidos.
+    const asset = assets.find((a) => re.test(a.name))
+    if (asset) return asset
   }
   return undefined
 }
@@ -99,8 +101,8 @@ function pickLatest(list: GhRelease[]): GhRelease | null {
 }
 
 /**
- * Descarga el último release del motor y resuelve el instalador de launcher de cada
- * plataforma. Sin `if` de SO en la UI: el matching vive aquí y en las `assetPatterns`.
+ * Descarga el último release del motor y resuelve TODAS las opciones de launcher de
+ * cada plataforma. Sin `if` de SO en la UI: el matching vive aquí y en las `formats`.
  */
 export function useLatestRelease(): LatestReleaseState {
   const [state, setState] = useState<LatestReleaseState>(EMPTY)
@@ -112,20 +114,31 @@ export function useLatestRelease(): LatestReleaseState {
         if (ignore) return
         const latest = pickLatest(list)
         if (!latest) {
-          setState({ loading: false, error: true, byPlatform: {} })
+          setState({ loading: false, error: true, releaseUrl: null, byPlatform: {} })
           return
         }
-        const byPlatform: Partial<Record<PlatformId, ResolvedAsset>> = {}
+        const byPlatform: Partial<Record<PlatformId, PlatformResolution>> = {}
         for (const platform of releases) {
-          const hit = matchAsset(latest, platform.assetPatterns)
-          if (hit) byPlatform[platform.id] = hit
+          const formats: ResolvedFormat[] = []
+          for (const format of platform.formats) {
+            const hit = matchAsset(latest.assets, format.patterns)
+            if (hit) {
+              formats.push({
+                label: format.label,
+                url: hit.browser_download_url,
+                fileName: hit.name,
+                sizeLabel: formatSize(hit.size),
+              })
+            }
+          }
+          byPlatform[platform.id] = { versionLabel: latest.tag_name, formats }
         }
-        setState({ loading: false, error: false, byPlatform })
+        setState({ loading: false, error: false, releaseUrl: latest.html_url, byPlatform })
       })
       .catch(() => {
         if (ignore) return
         // Sin API seguimos útil: las tarjetas enlazan a la página de releases.
-        setState({ loading: false, error: true, byPlatform: {} })
+        setState({ loading: false, error: true, releaseUrl: null, byPlatform: {} })
       })
     return () => {
       ignore = true

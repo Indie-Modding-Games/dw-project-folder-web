@@ -77,6 +77,9 @@ export const es = {
     copied: '¡Copiado!',
     pending: 'pendiente',
     docsLink: 'Guía de primer arranque',
+    formats: 'Formatos',
+    viewPrereleases: 'Ver las prereleases',
+    prereleasesHint: 'Las prereleases son las builds beta más recientes; pueden aún no estar firmadas o notarizadas.',
   },
   media: {
     eyebrow: 'Vídeos',
