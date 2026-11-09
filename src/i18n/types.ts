@@ -3,12 +3,14 @@ import { en } from './en'
 import { pt } from './pt'
 import { ja } from './ja'
 import { zh } from './zh'
+import { id } from './id'
+import { ko } from './ko'
 
-export const LANGS = ['es', 'en', 'pt', 'ja', 'zh'] as const
+export const LANGS = ['es', 'en', 'pt', 'ja', 'zh', 'id', 'ko'] as const
 export type Lang = (typeof LANGS)[number]
 export type Catalog = typeof es
 
-export const catalogs: Record<Lang, Catalog> = { es, en, pt, ja, zh }
+export const catalogs: Record<Lang, Catalog> = { es, en, pt, ja, zh, id, ko }
 
 export interface I18n {
   lang: Lang

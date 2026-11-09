@@ -9,6 +9,8 @@ const NAMES: Record<Lang, string> = {
   pt: 'Português',
   ja: '日本語',
   zh: '中文',
+  id: 'Bahasa Indonesia',
+  ko: '한국어',
 }
 
 /** Selector de idioma compacto: globo + dropdown nativo accesible. */
