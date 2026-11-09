@@ -7,11 +7,11 @@ import { SectionTitle } from '../ui/SectionTitle'
 
 const CARDS: { icon: IconName; titleKey: string; bodyKey: string; ctaKey?: string; href?: string }[] = [
   { icon: 'discord', titleKey: 'community.discordTitle', bodyKey: 'community.discordBody', ctaKey: 'community.discordCta', href: links.discord },
-  { icon: 'bug', titleKey: 'community.bugsTitle', bodyKey: 'community.bugsBody' },
+  { icon: 'bug', titleKey: 'community.bugsTitle', bodyKey: 'community.bugsBody', ctaKey: 'community.bugsCta', href: links.discord },
   { icon: 'book', titleKey: 'community.docsTitle', bodyKey: 'community.docsBody', ctaKey: 'community.docsCta', href: links.docs },
 ]
 
-/** Discord, reporte de bugs (F12) y documentación técnica. */
+/** Discord, reporte de bugs (vía Discord) y documentación técnica. */
 export function CommunitySection() {
   const { t } = useI18n()
   return (

@@ -3,17 +3,26 @@ import type { IconName } from '../ui/Icon'
 
 export type ReleaseStatus = 'available' | 'coming-soon'
 
-/** Contrato único por plataforma: Linux y Windows usan el mismo card (LSP, §10.3). */
+export type PlatformId = 'linux' | 'macos' | 'windows'
+
+/** Contrato único por plataforma: Linux, macOS y Windows usan el mismo card (LSP, §10.3). */
 export interface PlatformRelease {
-  id: 'linux' | 'windows'
+  id: PlatformId
   osKey: string
   icon: IconName
   status: ReleaseStatus
+  /** URL de reserva (página de releases) mientras la API resuelve o si falla. */
   url: string
   fileName: string
   versionLabel: string
   sizeLabel: string
   sha256: string
+  /**
+   * Regex (fuentes) ordenadas por prioridad, probadas contra el `name` de cada asset
+   * del último release (sin distinción de mayúsculas). La primera que coincide define
+   * la descarga de esta plataforma. Así el SO es dato, no un `if` en el componente.
+   */
+  assetPatterns: string[]
   /** Clave del catálogo con la lista de requisitos (tArr). */
   reqsKey: string
   /** Clave del catálogo con el cómo se ejecuta. */
@@ -26,27 +35,44 @@ export const releases: PlatformRelease[] = [
     osKey: 'Linux',
     icon: 'linux',
     status: 'available',
-    // TODO: fijar cuando se publique la release (scripts/package_linux.sh).
+    // La URL real llega de la API (useLatestRelease); esto es el enlace de reserva.
     url: links.releases,
-    fileName: 'pf-launcher-<version>-<commit>-linux-x86_64.tar.xz',
-    versionLabel: 'launcher beta 0.2',
-    sizeLabel: '~260 MB',
-    // TODO: generar el checksum junto al tarball.
+    fileName: 'dwe-launcher …amd64.AppImage',
+    versionLabel: 'último release',
+    sizeLabel: '~80 MB',
     sha256: '',
+    // El instalador de launcher (AppImage / .deb); nunca el tarball del motor.
+    assetPatterns: ['\\.AppImage$', '\\.deb$', 'linux.*\\.tar\\.xz$'],
     reqsKey: 'downloads.linuxReqs',
     howtoKey: 'downloads.linuxHowto',
+  },
+  {
+    id: 'macos',
+    osKey: 'macOS',
+    icon: 'apple',
+    status: 'available',
+    url: links.releases,
+    fileName: 'dwe-launcher …universal.dmg',
+    versionLabel: 'último release',
+    sizeLabel: '~9 MB',
+    sha256: '',
+    // El lanzador macOS: .dmg universal (Intel + Apple Silicon).
+    assetPatterns: ['\\.dmg$', '\\.pkg$', 'macos.*\\.tar\\.gz$', 'launcher\\.app\\.tar\\.gz$'],
+    reqsKey: 'downloads.macosReqs',
+    howtoKey: 'downloads.macosHowto',
   },
   {
     id: 'windows',
     osKey: 'Windows',
     icon: 'windows',
     status: 'available',
-    // TODO: fijar URL directa, tamaño y checksum cuando se publique la release.
     url: links.releases,
-    fileName: 'pf-launcher-<version>-<commit>-windows-x64.zip',
-    versionLabel: 'launcher beta 0.2',
-    sizeLabel: '~300 MB',
+    fileName: 'dwe-launcher …x64-setup.exe',
+    versionLabel: 'último release',
+    sizeLabel: '~6 MB',
     sha256: '',
+    // El instalador de launcher .exe; nunca el tarball del motor.
+    assetPatterns: ['-setup\\.exe$', '\\.exe$', 'windows.*\\.zip$'],
     reqsKey: 'downloads.windowsReqs',
     howtoKey: 'downloads.windowsHowto',
   },
