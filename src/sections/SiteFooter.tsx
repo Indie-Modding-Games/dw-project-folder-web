@@ -13,16 +13,6 @@ export function SiteFooter() {
           <img className="brand-logo" src={logo} alt="" width={26} height={26} />
           <span className="footer-brand-name">{t('brand.name')}</span>
         </p>
-        <div className="footer-video">
-          <iframe
-            src="https://www.youtube-nocookie.com/embed/E-UZVcreybA"
-            title="Video de YouTube"
-            loading="lazy"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
-        </div>
         <p className="footer-disclaimer">{t('footer.disclaimer')}</p>
         <p className="footer-disclaimer">{t('footer.byod')}</p>
         <p className="footer-license">{t('footer.license')}</p>

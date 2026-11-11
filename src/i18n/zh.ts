@@ -88,6 +88,7 @@ export const zh: Catalog = {
     title: '看项目动起来',
     subtitle: '开发日志、实机演示与原版对比。',
     subscribe: '订阅频道',
+    openOnYoutube: '在 YouTube 打开视频',
     placeholder: '暂无视频: 请在src/content/videos.ts添加ID',
     v1: '开发日志: 垂直切片',
     v2: '实机: File City',

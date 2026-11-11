@@ -88,6 +88,7 @@ export const en: Catalog = {
     title: 'The project in motion',
     subtitle: 'Devlogs, gameplay and side-by-sides with the original.',
     subscribe: 'Subscribe on YouTube',
+    openOnYoutube: 'Open video on YouTube',
     placeholder: 'No video yet: add IDs in src/content/videos.ts',
     v1: 'Devlog: the vertical slice',
     v2: 'Gameplay: File City',

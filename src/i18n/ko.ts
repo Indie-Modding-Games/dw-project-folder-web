@@ -88,6 +88,7 @@ export const ko: Catalog = {
     title: '움직이는 프로젝트',
     subtitle: '개발 로그, 게임플레이 및 원본과의 비교.',
     subscribe: '채널 구독',
+    openOnYoutube: 'YouTube에서 동영상 열기',
     placeholder: '아직 동영상 없음: src/content/videos.ts에 ID 추가',
     v1: '개발 로그: 수직 슬라이스',
     v2: '게임플레이: File City',

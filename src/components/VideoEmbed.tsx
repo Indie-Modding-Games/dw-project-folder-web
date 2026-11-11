@@ -17,14 +17,25 @@ export function VideoEmbed({ id, title }: VideoEmbedProps) {
     )
   }
   return (
-    <div className="video-frame">
-      <iframe
-        src={`https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}`}
-        title={title}
-        loading="lazy"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-      />
-    </div>
+    <>
+      <div className="video-frame">
+        <iframe
+          src={`https://www.youtube.com/embed/${encodeURIComponent(id)}`}
+          title={title}
+          loading="lazy"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+        />
+      </div>
+      <a
+        className="video-open-link"
+        href={`https://www.youtube.com/watch?v=${encodeURIComponent(id)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {t('media.openOnYoutube')}
+      </a>
+    </>
   )
 }

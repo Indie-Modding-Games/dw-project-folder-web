@@ -88,6 +88,7 @@ export const id: Catalog = {
     title: 'Proyek dalam gerakan',
     subtitle: 'Devlog, gameplay dan perbandingan dengan asli.',
     subscribe: 'Langganan saluran',
+    openOnYoutube: 'Buka video di YouTube',
     placeholder: 'Belum ada video: tambahkan ID di src/content/videos.ts',
     v1: 'Devlog: iris vertikal',
     v2: 'Gameplay: File City',

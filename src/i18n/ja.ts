@@ -88,6 +88,7 @@ export const ja: Catalog = {
     title: '動くプロジェクト',
     subtitle: '開発ログ、ゲームプレイ、オリジナルとの比較。',
     subscribe: 'チャンネル登録',
+    openOnYoutube: 'YouTubeで動画を開く',
     placeholder: '動画はまだありません: src/content/videos.ts にIDを追加',
     v1: '開発ログ: バティカルスライス',
     v2: 'ゲームプレイ: ファイルシティ',

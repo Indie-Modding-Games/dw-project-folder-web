@@ -88,6 +88,7 @@ export const pt: Catalog = {
     title: 'O projeto em movimento',
     subtitle: 'Devlogs, gameplay e comparativos com o original.',
     subscribe: 'Inscreva-se no canal',
+    openOnYoutube: 'Abrir vídeo no YouTube',
     placeholder: 'Sem vídeo ainda: adicione IDs em src/content/videos.ts',
     v1: 'Devlog: a fatia vertical',
     v2: 'Gameplay: File City',

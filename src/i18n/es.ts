@@ -86,6 +86,7 @@ export const es = {
     title: 'El proyecto en movimiento',
     subtitle: 'Devlogs, gameplay y comparativas con el original.',
     subscribe: 'Suscríbete al canal',
+    openOnYoutube: 'Abrir video en YouTube',
     placeholder: 'Aún no hay vídeo: añade IDs en src/content/videos.ts',
     v1: 'Devlog: la prueba vertical',
     v2: 'Gameplay: File City',
