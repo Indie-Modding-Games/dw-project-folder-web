@@ -55,6 +55,9 @@ export function HeroSection() {
               <Button href={links.youtube} external variant="ghost" icon="youtube">
                 {t('hero.ctaWatch')}
               </Button>
+              <Button href={links.github} external variant="ghost" icon="github">
+                {t('nav.github')}
+              </Button>
             </div>
           </div>
 
