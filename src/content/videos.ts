@@ -4,10 +4,9 @@ export interface VideoRef {
   titleKey: string
 }
 
-// TODO: sustituir por IDs reales de devlogs/gameplay.
 export const videos: VideoRef[] = [
   { id: 'E-UZVcreybA', titleKey: 'media.v1' },
-  { id: '', titleKey: 'media.v2' },
+  { id: 'QtiojuiHawQ', titleKey: 'media.v2' },
   { id: '', titleKey: 'media.v3' },
   { id: '', titleKey: 'media.v4' },
 ]
